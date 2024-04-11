@@ -1,0 +1,85 @@
+.head {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 5px;
+}
+
+.heading {
+    color: #FFBA31;
+    margin-inline-start: 10px;
+    margin-top: 5px;
+}
+
+.form {
+    width: 340px;
+    padding: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.inputs {
+    border: 2px solid #FDEBC8;
+    margin: 5px;
+    border-radius: 5px;
+    padding: 5px;
+    width: 70%;
+}
+
+.buttons{
+    padding: 5px;
+    width: 20%;
+    margin: 5px;
+}
+
+h1 {
+    margin: 0;
+}
+
+body {
+    margin: 0;
+    padding: 5px;
+    font-family: 'Courier New', Courier, monospace;
+    color: rgb(91 90 92);
+}
+
+input {
+    all: unset;
+    border-bottom: 2px solid #FDEBC8;
+    padding: 5px;
+    line-height: 25px;
+    width: 95%;
+    color: rgb(91 90 92);
+}
+
+textarea {
+    all: unset;
+    padding: 5px;
+    height: 50px;
+    color: rgb(91 90 92);
+}
+
+button {
+    all: unset;
+    background-color: #FFCF6D;
+    color: white;
+    font-size: medium;
+    font-weight: 600;
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 3px;
+    cursor: pointer;
+    display: block;
+    width: 86%;
+    text-align: center;
+}
+
+#status {
+    background-color: #ffe497;
+    padding: 5px;
+    margin: 5px;
+    border-radius: 5px;
+    color: white;
+    text-align: center;
+}

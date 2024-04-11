@@ -1,0 +1,30 @@
+{
+    "manifest_version": 3,
+    "name": "Cauldron",
+    "version": "1.0",
+    "description": "Save two text inputs into the browser.",
+    "permissions": ["storage", "tabs", "activeTab", "contextMenus"],
+    "action": {
+      "default_popup": "cargo-popup.html",
+      "default_icon": {
+        "16": "icon.png",
+        "48": "icon.png",
+        "128": "icon.png"
+      }
+    },
+    "icons": {
+      "16": "icon.png",
+      "48": "icon.png",
+      "128": "icon.png"
+    },
+    "background": {
+      "service_worker": "background.js"
+    },
+    "web_accessible_resources": [
+      {
+        "resources": ["cargo-saved.html"],
+        "matches": ["<all_urls>"]
+      }
+    ]
+  }
+  
