@@ -11,12 +11,7 @@ function run(result) {
                                     <a target="_blank" href="${item.link}">
                                         ${item.title}
                                     </a>${item.date + ", " + item.time}
-                                    ${
-																			item.more !== null
-																				? `<svg xmlns="http://www.w3.org/2000/svg" class="more-info-icon" width="16" height="16" viewBox="0 0 24 24"  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-paperclip"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>`
-																				: ""
-																		}
-                                    
+                                    ${item.more !== null? `<svg xmlns="http://www.w3.org/2000/svg" class="more-info-icon" width="16" height="16" viewBox="0 0 24 24"  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-paperclip"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>`: ""}
                                     
                                     <p class="more-info">
                                         ${item.more !== null ? item.more : ""}
@@ -64,12 +59,11 @@ function run(result) {
 
 		cargo_dump.appendChild(delete_all_btn);
 	} else {
-		cargo_dump.innerHTML = "<p>No input saved</p>";
+		cargo_dump.innerHTML = `<p style="width:100%;text-align:center;color: #FFBA31;font-size: medium;font-weight: 600;" >Nothing saved here...</p>`;
 	}
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    
 	chrome.storage.sync.get("cargo", run);
 
 	const refresh_btn = document.getElementById("refresh_now");
@@ -77,5 +71,4 @@ document.addEventListener("DOMContentLoaded", function () {
 	refresh_btn.addEventListener("click", function () {
 		chrome.storage.sync.get("cargo", run);
 	});
-
 });

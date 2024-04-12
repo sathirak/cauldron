@@ -67,7 +67,7 @@ function set_input() {
 
         title_in.value = current_title;
         link_in.value = current_url;
-        console.log(current_url, current_title);
+        // console.log("cauldron ext > inputs set ",current_url, current_title);
     });
     
 }

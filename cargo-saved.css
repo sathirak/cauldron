@@ -80,6 +80,10 @@ body {
     align-items: center;
     gap: 10px;
     font-size: medium;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 #cargo_dump {
@@ -100,14 +104,19 @@ body {
 
 .more-info {
     display: none;
-
+    color: #2f4f4f;
 }
 
 .more-info.show {
     display: block;
     margin-top: 5px;
     line-break: anywhere;
-    color: #573b02;
+}
+
+.more-info a {
+    font-size: small;
+    text-decoration-color: #2f4f4f;
+    color: #2f4f4f;
 }
 
 .more-info-icon {

@@ -1,8 +1,8 @@
 {
     "manifest_version": 3,
     "name": "Cauldron",
-    "version": "1.0",
-    "description": "Save two text inputs into the browser.",
+    "version": "1.1",
+    "description": "A Chrome extension that saves important URLs and stuff like that",
     "permissions": ["storage", "tabs", "activeTab", "contextMenus"],
     "action": {
       "default_popup": "cargo-popup.html",
@@ -17,6 +17,12 @@
       "48": "icon.png",
       "128": "icon.png"
     },
+    "content_scripts": [
+      {
+        "matches": ["<all_urls>"],
+        "js": ["content.js"]
+      }
+    ],
     "background": {
       "service_worker": "background.js"
     },
