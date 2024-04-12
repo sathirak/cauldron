@@ -76,10 +76,10 @@ function add_cargo(title, link, content) {
 		time: time,
 	};
 
-	chrome.storage.sync.get("cargo", function (result) {
+	chrome.storage.local.get("cargo", function (result) {
 		let cargo = result.cargo || [];
 		cargo.push(new_cargo);
 
-		chrome.storage.sync.set({ cargo: cargo }, function () {});
+		chrome.storage.local.set({ cargo: cargo }, function () {});
 	});
 }

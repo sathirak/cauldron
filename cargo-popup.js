@@ -1,36 +1,53 @@
 document.addEventListener('DOMContentLoaded', function () {
 
+    // Initialise document elements
     let title_in = document.getElementById('title');
     let link_in = document.getElementById('link');
     let more_in = document.getElementById('more');
     let save_btn = document.getElementById('save_button');
     let status_dump = document.getElementById('status');
-    var currentDate = new Date();
+    let currentDate = new Date();
 
-    var day = String(currentDate.getDate()).padStart(2, '0');
-    var month = String(currentDate.getMonth() + 1).padStart(2, '0');
-    var year = currentDate.getFullYear();
+    // Get the date and time
+    let day = String(currentDate.getDate()).padStart(2, '0');
+    let month = String(currentDate.getMonth() + 1).padStart(2, '0');
+    let year = currentDate.getFullYear();
+    let date = day + '/' + month + '/' + year;
+    let time = currentDate.toLocaleTimeString();
 
-    var date = day + '/' + month + '/' + year;
-    
-    var time = currentDate.toLocaleTimeString();
+    // This is the Cargo class
+    class Cargo {
 
+        constructor(title, link, more, date, time, src, tags) {
+            this.ref = self.crypto.randomUUID();
+            this.title = title;
+            this.link = link;
+            this.more = more !== '' ? more : null;
+            this.date = date;
+            this.time = time;
+            this.src = src;
+            this.tags = tags || [];
+        }
+
+    }
+
+    // Save button is clicked
     save_btn.addEventListener('click', function () {
-        let new_cargo = {
-            'ref': self.crypto.randomUUID(),
-            'title': title_in.value,
-            'link': link_in.value,
-            'more': more_in.value !== '' ? more_in.value : null,
-            'date': date,
-            'time': time
-        };
 
-        chrome.storage.sync.get('cargo', function (result) {
+        let title = title_in.value;
+        let link = link_in.value;
+        let more = more_in.value !== '' ? more_in.value : null;
+        let tags = ["bookmark"];
+
+        // New object is made and pushed into the localing storage
+        let new_cargo = new Cargo(title, link, more, date, time, link, tags);
+
+        chrome.storage.local.get('cargo', function (result) {
             let cargo = result.cargo || [];
             cargo.push(new_cargo);
 
-            chrome.storage.sync.set({ 'cargo': cargo }, function () {
-                status_dump.textContent = 'saved.';
+            chrome.storage.local.set({ 'cargo': cargo }, function () {
+                status_dump.textContent = 'Saved into Cauldron';
                 setTimeout(function () {
                     status_dump.textContent = '';
                 }, 500);
@@ -38,25 +55,19 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    chrome.storage.sync.get('cargo', function (result) {
-        let cargo = result.cargo || [];
-        if (cargo.length > 0) {
-            let last_saved = cargo[cargo.length - 1];
-            title_in.value = last_saved.title || '';
-            link_in.value = last_saved.link || '';
-        }
-    });
+    // manage button to go to the manage page
+    let manage_button = document.getElementById('view_cargo');
 
-    let viewSavedBtn = document.getElementById('view_cargo');
-
-    viewSavedBtn.addEventListener('click', function () {
+    manage_button.addEventListener('click', function () {
         chrome.tabs.create({ url: chrome.runtime.getURL('cargo-saved.html') });
     });
+
 });
 
 
 function set_input() {
 
+    // Queries the tabs to find the active tab and sets the title and link 
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
         let title_in = document.getElementById('title');
         let link_in = document.getElementById('link');
@@ -67,7 +78,7 @@ function set_input() {
 
         title_in.value = current_title;
         link_in.value = current_url;
-        // console.log("cauldron ext > inputs set ",current_url, current_title);
+        console.log("cauldron ext > inputs set ",current_url, current_title);
     });
     
 }

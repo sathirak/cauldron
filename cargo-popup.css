@@ -1,14 +1,23 @@
+:root {
+    --primary-color: #1f3036;
+    --accent-color: #364d55;
+    --tertiary-color: #0e2220;
+    --border-color: #b0d0cd;
+}
+
 .head {
     display: flex;
     flex-direction: row;
     align-items: center;
     margin: 5px;
+    justify-content: center;
 }
 
 .heading {
-    color: #FFBA31;
+    color: var(--primary-color);
     margin-inline-start: 10px;
     margin-top: 5px;
+    font-family: 'Courier New', Courier, monospace;
 }
 
 .form {
@@ -20,17 +29,19 @@
 }
 
 .inputs {
-    border: 2px solid #FDEBC8;
+    border: 2px solid var(--border-color);
     margin: 5px;
     border-radius: 5px;
     padding: 5px;
     width: 70%;
 }
 
-.buttons{
-    padding: 5px;
+.buttons {
     width: 20%;
     margin: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
 }
 
 h1 {
@@ -40,46 +51,50 @@ h1 {
 body {
     margin: 0;
     padding: 5px;
-    font-family: 'Courier New', Courier, monospace;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     color: rgb(91 90 92);
 }
 
 input {
     all: unset;
-    border-bottom: 2px solid #FDEBC8;
+    border-bottom: 2px solid var(--border-color);
     padding: 5px;
     line-height: 25px;
     width: 95%;
-    color: rgb(91 90 92);
+    font-weight: 600;
+    color: var(--tertiary-color);
 }
 
 textarea {
     all: unset;
     padding: 5px;
     height: 50px;
-    color: rgb(91 90 92);
+    font-weight: 600;   
+    color: var(--tertiary-color);
 }
 
 button {
     all: unset;
-    background-color: #FFCF6D;
+    background-color: var(--primary-color);
     color: white;
     font-size: medium;
     font-weight: 600;
     padding: 10px;
-    margin-bottom: 5px;
     border-radius: 3px;
     cursor: pointer;
-    display: block;
-    width: 86%;
+    display: flex;
     text-align: center;
+    justify-content: center;
+    transition: all 0.5s ease;
+}
+
+button:hover {
+    background-color: var(--border-color);
+    color: var(--primary-color);
 }
 
 #status {
-    background-color: #ffe497;
-    padding: 5px;
-    margin: 5px;
-    border-radius: 5px;
-    color: white;
+    color: var(--tertiary-color);
     text-align: center;
+    font-weight: 600;
 }
