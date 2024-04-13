@@ -52,11 +52,22 @@ chrome.contextMenus.onClicked.addListener(function (info, tab) {
 				add_cargo(title, info.pageUrl, null);
 
 			}
+
 		});
 	}
 });
 
 function add_cargo(title, link, content) {
+
+	chrome.notifications.create({
+		type: 'basic',
+		iconUrl: 'icon.png',
+		title: "Cauldron",
+		message: `✓✓ Saved as "${title}"`,
+		silent: true
+	});
+
+
 	let currentDate = new Date();
 
 	let day = String(currentDate.getDate()).padStart(2, "0");

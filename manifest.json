@@ -3,7 +3,7 @@
     "name": "Cauldron",
     "version": "1.1",
     "description": "Gather links, text snippets, code snippets, and images effortlessly in Cauldron.",
-    "permissions": ["storage", "tabs", "activeTab", "contextMenus"],
+    "permissions": ["storage", "tabs", "activeTab", "contextMenus", "notifications"],
     "action": {
       "default_popup": "cargo-popup.html",
       "default_icon": {

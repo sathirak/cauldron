@@ -14,9 +14,11 @@
 }
 
 .heading {
+	user-select: none;
 	color: var(--primary-color);
 	margin-inline-start: 10px;
 	margin-top: 5px;
+	font-weight: 600;
 }
 
 h1 {
@@ -155,7 +157,7 @@ body {
 	transform: rotate(180deg);
 }
 
-.search {
+.bar {
 	color: var(--accent-color);
 	display: flex;
 	align-items: center;
@@ -164,7 +166,7 @@ body {
 	margin-block: 15px;
 }
 
-.search input {
+.bar input {
 	all: unset;
 	border: 2px solid var(--border-color);
 	margin: 5px;
@@ -223,7 +225,7 @@ html {
 	padding: 20px;
 	border: 1px solid #888;
 	width: 50%;
-    border-radius: 10px;
+	border-radius: 10px;
 }
 
 .modal-content input {
@@ -234,17 +236,16 @@ html {
 	width: 95%;
 	font-weight: 600;
 	color: var(--tertiary-color);
-
 }
 
 .modal-content textarea {
-    display: block !important;
-    all: unset;
-    padding: 5px;
-    height: 50px;
-    width: 400px;
-    font-weight: 600;
-    color: var(--tertiary-color);
+	display: block !important;
+	all: unset;
+	padding: 5px;
+	height: 50px;
+	width: 400px;
+	font-weight: 600;
+	color: var(--tertiary-color);
 }
 
 .close {
@@ -252,7 +253,7 @@ html {
 	float: right;
 	font-size: 28px;
 	font-weight: bold;
-    transition: color 0.3s ease-in-out;
+	transition: color 0.3s ease-in-out;
 }
 
 .close:hover,
@@ -263,16 +264,16 @@ html {
 }
 
 #save_changes {
-    display: flex;
-    flex-direction: row;
-    gap: 6px;
-    align-items: center;
+	display: flex;
+	flex-direction: row;
+	gap: 6px;
+	align-items: center;
 }
 
 #memory_dump {
-    font-weight: 600;
-    user-select: none;
-    display: flex;
-    align-items: center;
-    gap: 10px;  
+	font-weight: 600;
+	user-select: none;
+	display: flex;
+	align-items: center;
+	gap: 10px;
 }

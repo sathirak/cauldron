@@ -3,7 +3,7 @@ function run(result) {
 	let memory_dump = document.getElementById("memory_dump");
 	let cargo = result.cargo || [];
 
-	const cargoSize = getCargoSize(cargo);
+	const cargoSize = get_cargo_size(cargo);
 	memory_dump.innerHTML = cargoSize;
 
 	if (cargo.length > 0) {
@@ -98,9 +98,10 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-function getCargoSize(cargo) {
-    const cargoString = JSON.stringify(cargo);
-    const cargoSizeInBytes = new Blob([cargoString]).size;
+function get_cargo_size(cargo) {
+    
+    const cargo_string = JSON.stringify(cargo);
+    const cargo_size_bytes = new Blob([cargo_string]).size;
 
     // Define size thresholds
     const KB = 1024;
@@ -108,17 +109,18 @@ function getCargoSize(cargo) {
 
     // Convert to appropriate unit
     let size, unit;
-    if (cargoSizeInBytes < KB) {
-        size = cargoSizeInBytes;
+    if (cargo_size_bytes < KB) {
+        size = cargo_size_bytes;
         unit = "bytes";
-    } else if (cargoSizeInBytes < MB) {
-        size = (cargoSizeInBytes / KB).toFixed(2);
+    } else if (cargo_size_bytes < MB) {
+        size = (cargo_size_bytes / KB).toFixed(2);
         unit = "KB";
     } else {
-        size = (cargoSizeInBytes / MB).toFixed(2);
+        size = (cargo_size_bytes / MB).toFixed(2);
         unit = "MB";
     }
 
+    // Return the size with relavant units with the harddisk icon
     return `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-hard-drive"><line x1="22" x2="2" y1="12" y2="12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/><line x1="6" x2="6.01" y1="16" y2="16"/><line x1="10" x2="10.01" y1="16" y2="16"/></svg>
 			${size} ${unit} used`;
 }
@@ -175,3 +177,32 @@ function edit_cargo(index, cargo) {
         run({ cargo: cargo }); // Assuming run function exists
     });
 }
+
+function search_cargo(query, cargo) {
+    query = query.toLowerCase().trim();
+    if (query === "") return cargo; // If query is empty, return all cargo items
+
+    return cargo.filter(item => {
+        // Search in title, link, and more fields for the query
+        const titleMatch = item.title.toLowerCase().includes(query);
+        const linkMatch = item.link.toLowerCase().includes(query);
+        const moreMatch = item.more !== null && item.more.toLowerCase().includes(query);
+
+        return titleMatch || linkMatch || moreMatch;
+    });
+}
+
+document.getElementById("search_form").addEventListener("submit", function(event) {
+    
+    event.preventDefault();
+
+    const query = document.getElementById("search_query").value;
+
+    chrome.storage.local.get("cargo", function(result) {
+
+        const filtered_cargo = search_cargo(query, result.cargo || []);
+        run({ cargo: filtered_cargo });
+
+    });
+
+});
