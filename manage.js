@@ -20,15 +20,14 @@ function run(result) {
                                 <div>
                                     <a target="_blank" href="${item.link}">
                                         ${item.title}
-                                    </a>${item.date + ", " + item.time}
+                                    </a>${item.src ? '<a href="'+ item.src +'" target="_blank" style="font-size:12px;">src</a>' :''}
 
                                     <article class="more-info">
 
                                         <p>
                     
                                             <copy>${item.more ?? ''}</copy>
-                                            ${item.src ? 'source from <a href="'+ item.src +'" target="_blank">' + item.src + '</a>' :'No source found'}
-                                            
+                                            ${item.date + ", " + item.time}<br>
                                             ${item.tags.map(tag => `<tag>${tag}</tag>`).join('')}
                                             
 
@@ -341,7 +340,7 @@ export_btn.addEventListener("click", function () {
         // Create a temporary anchor element
         const a = document.createElement("a");
         a.href = URL.createObjectURL(blob);
-        a.download = "data.json";
+        a.download = "cauldron.json";
 
         // Trigger click event to start download
         a.click();
