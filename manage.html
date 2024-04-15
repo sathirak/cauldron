@@ -48,13 +48,15 @@
 
     <!-- the bar with all the filter buttons -->
     <div class="bar">
+
         <button type="button" class="filter-button" tag="all">All</button>
+        <button type="button" class="filter-button" tag="star">Stars</button>
         <button type="button" class="filter-button" tag="bookmark">Bookmarks</button>
         <button type="button" class="filter-button" tag="image">Images</button>
         <button type="button" class="filter-button" tag="link">Links</button>
         <button type="button" class="filter-button" tag="text">Text</button>
         <button type="button" class="filter-button" tag="code">Code</button>
-        <button type="button" class="filter-button" tag="star">Stars</button>
+        
     </div>
 
     <!-- where all the cargo gets dumped into by the run() function -->
@@ -63,11 +65,21 @@
     <!-- The lower bar with the delete button and memory dump     -->
     <div class="bar">
 
-        <button id="delete_all"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg>  
+        <button id="delete_all" style="all: unset;font-weight: 600;cursor: pointer;display: flex;align-items: center;gap: 3px;"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg>  
             Delete All
         </button>
 
         <div id="memory_dump" style="font-weight: 600;user-select: none;"></div>
+
+        <button id="export_cargo" style="all: unset;font-weight: 600;cursor: pointer;display: flex;align-items: center;gap: 3px;"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-hard-drive-download"><path d="M12 2v8"/><path d="m16 6-4 4-4-4"/><rect width="20" height="8" x="2" y="14" rx="2"/><path d="M6 18h.01"/><path d="M10 18h.01"/></svg>  
+            Export
+        </button>
+
+        <input type="file" id="file_input" style="display: none;">
+        <button id="import_cargo" style="all: unset;font-weight: 600;cursor: pointer;display: flex;align-items: center;gap: 3px;"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-hard-drive-upload"><path d="m16 6-4-4-4 4"/><path d="M12 2v8"/><rect width="20" height="8" x="2" y="14" rx="2"/><path d="M6 18h.01"/><path d="M10 18h.01"/></svg>
+            Import
+        </button>
+
     </div>
 
     <!-- the popup modal that comes out when you edit stuff -->

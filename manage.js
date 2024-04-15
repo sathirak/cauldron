@@ -23,11 +23,11 @@ function run(result) {
                                     </a>${item.date + ", " + item.time}
 
                                     <article class="more-info">
-                                    
+
                                         <p>
                     
                                             <copy>${item.more ?? ''}</copy>
-                                            ${item.src ? '<a href="'+ item.src +'" target="_blank">' + item.src + '</a>' :'No source found'}
+                                            ${item.src ? 'source from <a href="'+ item.src +'" target="_blank">' + item.src + '</a>' :'No source found'}
                                             
                                             ${item.tags.map(tag => `<tag>${tag}</tag>`).join('')}
                                             
@@ -169,20 +169,6 @@ function copy_listner() {
         });
 }
 
-// Adding an event lisnter to the refresh button
-document.addEventListener("DOMContentLoaded", function () {
-
-	chrome.storage.local.get("cargo", run);
-
-	const refresh_btn = document.getElementById("refresh_now");
-
-	refresh_btn.addEventListener("click", function () {
-		chrome.storage.local.get("cargo", run);
-	});
-
-});
-
-
 function get_cargo_size(cargo) {
     
     const cargo_string = JSON.stringify(cargo);
@@ -216,10 +202,6 @@ function edit_cargo(index, cargo) {
     const cargo_item = cargo[index];
 
     const modal = document.getElementById("editModal");
-
-	console.log(cargo);
-	console.log(index);
-	console.log(cargo[index]);
     
     // Populate the input fields in the modal with cargoItem details
     const title_input = modal.querySelector("#titleInput");
@@ -331,3 +313,88 @@ document.querySelectorAll(".filter-button").forEach(function (button) {
         });
     });
 });
+
+// Adding an event lisnter to the refresh button
+document.addEventListener("DOMContentLoaded", function () {
+
+	chrome.storage.local.get("cargo", run);
+
+	const refresh_btn = document.getElementById("refresh_now");
+
+	refresh_btn.addEventListener("click", function () {
+		chrome.storage.local.get("cargo", run);
+	});
+
+});
+
+const export_btn = document.getElementById("export_cargo");
+
+export_btn.addEventListener("click", function () {
+
+    chrome.storage.local.get("cargo", function (data) {
+        // Convert cargo data to JSON
+        const json_data = JSON.stringify(data.cargo);
+
+        // Create a blob with the JSON data
+        const blob = new Blob([json_data], { type: "application/json" });
+
+        // Create a temporary anchor element
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = "data.json";
+
+        // Trigger click event to start download
+        a.click();
+
+        // Clean up
+        URL.revokeObjectURL(a.href);
+    });
+
+});
+
+const import_btn = document.getElementById("import_cargo");
+const file_input = document.getElementById("file_input");
+
+import_btn.addEventListener("click", function () {
+    file_input.click();
+});
+
+file_input.addEventListener("change", function () {
+    const file = file_input.files[0];
+    const reader = new FileReader();
+    reader.onload = function (event) {
+
+        const imported_data = JSON.parse(event.target.result);
+
+        chrome.storage.local.get("cargo", function (result) {
+
+            let current_data = result.cargo || {};
+            current_data = Object.values(current_data);
+
+            const choice = prompt("Do you want to add or replace the current data? Type 'add' or 'replace'.");
+
+            if (choice === "add") {
+
+                if (!Array.isArray(current_data)) {
+                    current_data = [];
+                }
+
+                const new_cargo_data = current_data.concat(Object.values(imported_data));
+                chrome.storage.local.set({ "cargo": new_cargo_data }, function () {
+                    alert("Cargo imported and added successfully!");
+                });
+
+            } else if (choice === "replace") {
+
+                chrome.storage.local.set({ "cargo": Object.values(imported_data) }, function () {
+                    alert("Cargo imported and replaced successfully!");
+                });
+            } else {
+                alert("Invalid choice. Please type 'add' or 'replace'.");
+            }
+            
+        });
+    };
+    reader.readAsText(file);
+});
+
