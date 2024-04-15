@@ -263,7 +263,7 @@ function search_cargo(query, cargo) {
         const more_match = item.more !== null && item.more.toLowerCase().includes(query);
         const tag_match = item.tags.some(itemTag => itemTag.toLowerCase().includes(query));
 
-        return title_match || link_match || more_match, tag_match;
+        return title_match || link_match || more_match || tag_match;
     });
 }
 
