@@ -1,45 +1,46 @@
+// When the contest menu opes on an image or a hyperlink, it calls this script to get the innerHTML or alt of the image to set as title
+
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+
+    // If request is for a hyperlink, get the inner text of the link
     if (request.action === 'getInnerHTML') {
 
-        console.log("cauldron ext > content.js fired with ", request.selector);
-
         const elements = document.querySelectorAll(request.selector);
         if (elements.length > 0) {
-            console.log("cauldron ext > content.js found element(s)");
-            // Assuming you want to send back innerText of all matched elements
-            const innerTextArray = [];
+
+            const content_array = [];
             elements.forEach(element => {
-                innerTextArray.push(element.innerText);
+                content_array.push(element.innerText);
             });
-            sendResponse({ innerText: innerTextArray });
+
+            sendResponse({ content: content_array });
+
         } else {
-            console.log("cauldron ext > content.js responded with no element found");
-            sendResponse({ innerText: null });
+
+            sendResponse({ content: null });
+
         }
     }
 
+    // If the request is for an image, get the alt name of the image
     if (request.action === 'getAlt') {
 
-        console.log("cauldron ext > content.js fired with ", request.selector);
-
         const elements = document.querySelectorAll(request.selector);
         if (elements.length > 0) {
-            console.log("cauldron ext > content.js found element(s)");
-            // Assuming you want to send back innerText of all matched elements
-            const altArray = [];
+
+            const content_array = [];
             elements.forEach(element => {
-                altArray.push(element.alt);
+                content_array.push(element.alt);
             });
-            sendResponse({ altArray: altArray });
+
+            sendResponse({ content: alt });
+
         } else {
-            console.log("cauldron ext > content.js responded with no element found");
-            sendResponse({ altArray: null });
+
+            sendResponse({ content: null });
+
         }
     }
 
-
 });
-
-console.log("cauldron ext > content.js loaded");
-
 

@@ -6,14 +6,14 @@ document.addEventListener('DOMContentLoaded', function () {
     let more_in = document.getElementById('more');
     let save_btn = document.getElementById('save_button');
     let status_dump = document.getElementById('status');
-    let currentDate = new Date();
+    let current_date = new Date();
 
     // Get the date and time
-    let day = String(currentDate.getDate()).padStart(2, '0');
-    let month = String(currentDate.getMonth() + 1).padStart(2, '0');
-    let year = currentDate.getFullYear();
-    let date = day + '/' + month + '/' + year;
-    let time = currentDate.toLocaleTimeString();
+    let timezone_day = String(current_date.getDate()).padStart(2, '0');
+    let timezone_month = String(current_date.getMonth() + 1).padStart(2, '0');
+    let timezone_year = current_date.getFullYear();
+    let timezone_date = timezone_day + '/' + timezone_month + '/' + timezone_year;
+    let timezone_time = current_date.toLocaleTimeString();
 
     // This is the Cargo class
     class Cargo {
@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function () {
         let tags = ["bookmark"];
 
         // New object is made and pushed into the localing storage
-        let new_cargo = new Cargo(title, link, more, date, time, link, tags);
+        let new_cargo = new Cargo(title, link, more, timezone_date, timezone_time, link, tags);
 
         chrome.storage.local.get('cargo', function (result) {
             let cargo = result.cargo || [];
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let manage_button = document.getElementById('view_cargo');
 
     manage_button.addEventListener('click', function () {
-        chrome.tabs.create({ url: chrome.runtime.getURL('cargo-saved.html') });
+        chrome.tabs.create({ url: chrome.runtime.getURL('manage.html') });
     });
 
 });
@@ -78,7 +78,6 @@ function set_input() {
 
         title_in.value = current_title;
         link_in.value = current_url;
-        console.log("cauldron ext > inputs set ",current_url, current_title);
     });
     
 }

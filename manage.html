@@ -3,7 +3,7 @@
 <head>
 
     <title>Caludron</title>
-    <link rel="stylesheet" href="cargo-saved.css">
+    <link rel="stylesheet" href="manage.css">
 
 </head>
 <body>
@@ -48,13 +48,13 @@
 
     <!-- the bar with all the filter buttons -->
     <div class="bar">
-        <button type="button" class="filter-button">All</button>
-        <button type="button" class="filter-button">Bookmarks</button>
-        <button type="button" class="filter-button">Links</button>
-        <button type="button" class="filter-button">Images</button>
-        <button type="button" class="filter-button">Text</button>
-        <button type="button" class="filter-button">Code</button>
-        <button type="button" class="filter-button">Placeholder1</button>
+        <button type="button" class="filter-button" tag="all">All</button>
+        <button type="button" class="filter-button" tag="bookmark">Bookmarks</button>
+        <button type="button" class="filter-button" tag="image">Images</button>
+        <button type="button" class="filter-button" tag="link">Links</button>
+        <button type="button" class="filter-button" tag="text">Text</button>
+        <button type="button" class="filter-button" tag="code">Code</button>
+        <button type="button" class="filter-button" tag="star">Stars</button>
     </div>
 
     <!-- where all the cargo gets dumped into by the run() function -->
@@ -87,6 +87,9 @@
             <label for="linkInput">Link</label>
             <input spellcheck="false" type="text" id="linkInput" name="linkInput" placeholder="Add a link"><br><br>
 
+            <label for="tagsInput">Tags (Separate with commas)</label>
+            <input spellcheck="false" type="text" id="tagsInput" name="tagsInput" placeholder="Add tags separated by commas"><br><br>
+
             <label for="moreInput">More Info</label><br>
             <textarea spellcheck="false" id="moreInput" name="moreInput" rows="4" cols="50" placeholder="Add some more information"></textarea><br><br>
             
@@ -98,6 +101,6 @@
   </div>
 
   <!-- lastly load the script -->
-  <script src="cargo-saved.js"></script>
+  <script src="manage.js"></script>
 </body>
 </html>

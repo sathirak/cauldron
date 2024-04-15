@@ -1,3 +1,21 @@
+// This script handles the context menu options main process
+
+// This is the Cargo class
+class Cargo {
+
+	constructor(title, link, more, date, time, src, tags) {
+		this.ref = self.crypto.randomUUID();
+		this.title = title;
+		this.link = link;
+		this.more = more !== '' ? more : null;
+		this.date = date;
+		this.time = time;
+		this.src = src;
+		this.tags = tags || [];
+	}
+
+}
+
 chrome.runtime.onInstalled.addListener(function () {
 	chrome.contextMenus.create({
 		id: "CauldronContext",
@@ -6,29 +24,43 @@ chrome.runtime.onInstalled.addListener(function () {
 	});
 });
 
+//  Executes when the context menu is clicked
 chrome.contextMenus.onClicked.addListener(function (info, tab) {
 	if (info.menuItemId === "CauldronContext") {
 		chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-			let title = tabs[0].title;
+			let title = tabs[0].title.trim();
 
 			let content;
 
+			// If context menu is on image
 			if (info.srcUrl) {
 
 				const url = new URL(info.srcUrl);
 				const path = url.pathname;
 
 				chrome.tabs.sendMessage(tabs[0].id, { action: "getAlt", selector: `img[src*="${path}"]` }, function (response) {
-					const content = response.altArray !== undefined && response.altArray !== null ? response.altArray : title;
-					console.log("cauldron ext > alt received", response);
 
-					add_cargo(content, info.srcUrl, 'source from <a target="blank_" href="' + info.pageUrl + '" >' + info.pageUrl + "</a>");
+					try {
+
+						if (response && response.content !== null) {
+							content = response.content;
+						} else {
+							content = title;
+						}
+
+					} catch (error) {
+						content = title;
+					}
+
+					add_cargo(content.trim(), info.srcUrl, null, info.pageUrl, ["image"]);
 				});
 
+			// If context menu is on selected text
 			} else if (info.selectionText) {
 
-				add_cargo(title, info.pageUrl, info.selectionText);
+				add_cargo(info.selectionText.substring(0, 35), info.pageUrl, info.selectionText.trim(), info.pageUrl, ["text", "code"]);
 
+			// If context menu is on <a> link
 			} else if (info.linkUrl) {
 
 				const url = new URL(info.linkUrl);
@@ -36,20 +68,30 @@ chrome.contextMenus.onClicked.addListener(function (info, tab) {
 
 				chrome.tabs.sendMessage(tabs[0].id, { action: "getInnerHTML", selector: `a[href*="${path}"]` }, function (response) {
 
-					content = response.innerText[0];
+					try {
 
-					console.log("cauldron ext > innerHtml received", content);
+						if (response && response.content !== null) {
+							content = response.content[0];
+						} else {
+							content = title;
+						}
 
-					add_cargo(content, info.linkUrl, 'source from <a target="blank_" href="' + info.pageUrl + '" >' + info.pageUrl + "</a>");
+					} catch (error) {
+						content = title;
+					}
+
+					add_cargo(content.trim(), info.linkUrl, null, info.pageUrl, ["link"]);
 				});
                 
+			// If context menu is on a <frame>
 			} else if (info.frameUrl) {
 
-				add_cargo(title, info.frameUrl, 'source from <a target="blank_" href="' + info.pageUrl + '" >' + info.pageUrl + "</a>");
+				add_cargo(title, info.frameUrl, null, info.pageUrl, ["bookmark"]);
 
+			// Catch all 
 			} else {
 
-				add_cargo(title, info.pageUrl, null);
+				add_cargo(title, info.pageUrl, null, info.pageUrl, ["bookmark"]);
 
 			}
 
@@ -57,40 +99,34 @@ chrome.contextMenus.onClicked.addListener(function (info, tab) {
 	}
 });
 
-function add_cargo(title, link, content) {
+function add_cargo(title, link, content, src, tags) {
 
+	// Send a silent notificaton
 	chrome.notifications.create({
 		type: 'basic',
-		iconUrl: 'icon.png',
+		iconUrl: 'images/icon.png',
 		title: "Cauldron",
-		message: `✓✓ Saved as "${title}"`,
+		message: `🪄 Saved as "${title}"`,
 		silent: true
 	});
 
 
-	let currentDate = new Date();
+	// Get time and date
+	let current_date = new Date();
+	let timezone_day = String(current_date.getDate()).padStart(2, "0");
+	let timezone_month = String(current_date.getMonth() + 1).padStart(2, "0");
+	let timezone_year = current_date.getFullYear();
+	let timezone_date = timezone_day + "/" + timezone_month + "/" + timezone_year;
+	let timezone_time = current_date.toLocaleTimeString();
 
-	let day = String(currentDate.getDate()).padStart(2, "0");
-	let month = String(currentDate.getMonth() + 1).padStart(2, "0");
-	let year = currentDate.getFullYear();
-
-	let date = day + "/" + month + "/" + year;
-
-	let time = currentDate.toLocaleTimeString();
-
-	let new_cargo = {
-		ref: self.crypto.randomUUID(),
-		title: title,
-		link: link,
-		more: content,
-		date: date,
-		time: time,
-	};
+	let new_cargo = new Cargo(title, link, content, timezone_date, timezone_time, src, tags);
 
 	chrome.storage.local.get("cargo", function (result) {
+
 		let cargo = result.cargo || [];
 		cargo.push(new_cargo);
 
 		chrome.storage.local.set({ cargo: cargo }, function () {});
 	});
+
 }

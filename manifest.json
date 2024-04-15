@@ -2,20 +2,20 @@
     "manifest_version": 3,
     "name": "Cauldron",
     "version": "1.1",
-    "description": "Gather links, text snippets, code snippets, and images effortlessly in Cauldron.",
+    "description": "Streamline your workflow with Cauldron, the all-in-one tool for effortless content gathering and organization.",
     "permissions": ["storage", "tabs", "activeTab", "contextMenus", "notifications"],
     "action": {
-      "default_popup": "cargo-popup.html",
+      "default_popup": "popup.html",
       "default_icon": {
-        "16": "icon.png",
-        "48": "icon.png",
-        "128": "icon.png"
+        "16": "images/icon.png",
+        "48": "images/icon.png",
+        "128": "images/icon.png"
       }
     },
     "icons": {
-      "16": "icon.png",
-      "48": "icon.png",
-      "128": "icon.png"
+      "16": "images/icon.png",
+      "48": "images/icon.png",
+      "128": "images/icon.png"
     },
     "content_scripts": [
       {
@@ -28,7 +28,7 @@
     },
     "web_accessible_resources": [
       {
-        "resources": ["cargo-saved.html"],
+        "resources": ["manage.html"],
         "matches": ["<all_urls>"]
       }
     ]

@@ -1,8 +1,40 @@
+html {
+	--s: 90px;
+	--c1: #ffffff;
+	--c2: #eff0f2;
+	background: conic-gradient(at 25% 75%, #0000 25%, var(--c1) 0) calc(var(--s) / -8) calc(var(--s) / 8) / var(--s) var(--s),
+		radial-gradient(50% 50%, var(--c1) 24%, var(--c2) 26% 74%, #0000 76%) 0 0 / var(--s) var(--s),
+		conic-gradient(var(--c1) 75%, var(--c2) 0) calc(var(--s) / 2) calc(var(--s) / 2) / calc(2 * var(--s)) calc(2 * var(--s));
+	background-attachment: fixed;
+}
+
 :root {
 	--primary-color: #1f3036;
 	--accent-color: #364d55;
 	--tertiary-color: #0e2220;
 	--border-color: #b0d0cd;
+	--warn-color:#dc265d;
+}
+
+svg {
+	user-select: none;
+}
+
+tag {
+    background-color: var(--accent-color);
+    color: var(--border-color);
+    padding: 2px;
+    padding-inline: 6px;
+    border-radius: 3px;
+    margin-inline: 3px;
+}
+
+copy {
+    user-select: none;
+    padding: 4px;
+	padding-inline: 7px;
+    display: block;
+    border-radius: 4px;
 }
 
 .head {
@@ -32,13 +64,14 @@ button {
 	color: white;
 	font-size: medium;
 	font-weight: 600;
-	padding: 8px;
+	padding: 10px;
 	border-radius: 3px;
 	cursor: pointer;
 	display: block;
 	text-align: center;
 	transition: all 0.5s ease;
-	margin-inline: 4px;
+	margin: 4px;
+	height: max-content;
 }
 
 button:hover {
@@ -56,18 +89,8 @@ body {
 	align-items: center;
 }
 
-.delete-entry {
-	all: unset;
-	background-color: var(--primary-color);
-	color: white;
-	font-size: medium;
-	font-weight: 600;
-	padding: 6px;
-	margin-bottom: 5px;
-	border-radius: 3px;
-	cursor: pointer;
-	display: block;
-	text-align: center;
+.delete_entry {
+	background-color: var(--warn-color);
 }
 
 .cargo-item {
@@ -129,22 +152,29 @@ body {
 }
 
 .more-info.show {
-	display: block;
-	margin-top: 5px;
-	line-break: anywhere;
+    display: flex;
+	flex-direction: column;
+    margin-top: 15px;
+    line-break: anywhere;
+    justify-content: space-between;
+    width: 504px;
+}
+
+.more-info p {
+	width: 400px;
 }
 
 .more-info a {
 	font-size: small;
 	text-decoration-color: var(--tertiary-color);
 	color: var(--tertiary-color);
+	word-break: break-all;
+	display: inline-block;
+	max-width: 100%;
 }
 
-.more-info-icon {
-	color: var(--primary-color);
-	margin-right: 5px;
-	cursor: pointer;
-	display: block;
+.button-set {
+	gap: 6px;
 }
 
 #refresh_now {
@@ -193,18 +223,6 @@ body {
 	color: var(--primary-color);
 }
 
-html {
-	--s: 90px;
-	--c1: #ffffff;
-	--c2: #eff0f2;
-	background: conic-gradient(at 25% 75%, #0000 25%, var(--c1) 0) calc(var(--s) / -8) calc(var(--s) / 8) / var(--s) var(--s),
-		radial-gradient(50% 50%, var(--c1) 24%, var(--c2) 26% 74%, #0000 76%) 0 0 / var(--s) var(--s),
-		conic-gradient(var(--c1) 75%, var(--c2) 0) calc(var(--s) / 2) calc(var(--s) / 2) / calc(2 * var(--s)) calc(2 * var(--s));
-	background-attachment: fixed;
-}
-
-/* Modal Styles */
-
 .modal {
 	display: none;
 	position: fixed;
@@ -219,9 +237,7 @@ html {
 
 .modal-content {
 	background-color: #fefefe;
-	position: fixed;
-	top: 30px;
-	transform: translateX(50%);
+	transform: translateX(50%) translateY(50%);
 	padding: 20px;
 	border: 1px solid #888;
 	width: 50%;
@@ -242,8 +258,9 @@ html {
 	display: block !important;
 	all: unset;
 	padding: 5px;
-	height: 50px;
-	width: 400px;
+	height: 100px;
+	max-height: 150px;
+	width: 100%;
 	font-weight: 600;
 	color: var(--tertiary-color);
 }
@@ -276,4 +293,8 @@ html {
 	display: flex;
 	align-items: center;
 	gap: 10px;
+}
+
+.starred {
+	background-color: rgb(246 219 96);
 }
