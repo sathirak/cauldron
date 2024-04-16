@@ -223,19 +223,19 @@ function edit_cargo(ref) {
         const editing_cargo_index = cargo.findIndex(cargo_item => cargo_item.ref === ref);
 
 
-        const modal = document.getElementById("editModal");
+        const modal = document.getElementById("edit_modal");
         
         // Populate the input fields in the modal with cargoItem details
-        const title_input = modal.querySelector("#titleInput");
+        const title_input = modal.querySelector("#title_input");
         title_input.value = cargo[editing_cargo_index].title;
 
-        const link_input = modal.querySelector("#linkInput");
+        const link_input = modal.querySelector("#link_input");
         link_input.value = cargo[editing_cargo_index].link;
 
-        const more_input = modal.querySelector("#moreInput");
+        const more_input = modal.querySelector("#more_input");
         more_input.value = cargo[editing_cargo_index].more;
 
-        const tags_input = modal.querySelector("#tagsInput");
+        const tags_input = modal.querySelector("#tags_input");
         tags_input.value = cargo[editing_cargo_index].tags.join(", ")
 
         // Display the modal
