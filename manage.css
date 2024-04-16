@@ -298,3 +298,32 @@ body {
 .starred {
 	background-color: rgb(246 219 96);
 }
+
+.github-repo {
+    width: 40px;
+    height: 40px;
+    background-color: inherit;
+    color: inherit;
+	display: block;
+}
+
+.github-link {
+    position: absolute;
+    top: 2%;
+    right: 2%;
+    background-color: var(--tertiary-color);
+    color: var(--c1);
+    border-radius: 50%;
+    padding: 11px;
+	animation: none;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.github-link:hover .github-repo{
+	animation: pulse 1s ease-in-out;
+}

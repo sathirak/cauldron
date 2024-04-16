@@ -111,7 +111,7 @@ function run(result) {
                     let ref = event.target.dataset.index; 
                     delete_listener(ref);
                     location.reload();
-                }
+                } else {} // Else added due to chrome bug
 			});
 		});
 
@@ -123,7 +123,8 @@ function run(result) {
                 chrome.storage.local.remove("cargo", function () {
                     location.reload();
                 });
-            }
+            } else {} // Else added due to chrome bug
+        
 		});
 
 	} else {
