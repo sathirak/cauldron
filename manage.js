@@ -35,15 +35,15 @@ function run(result) {
 
                                         <div style="all:unset;gap: 6px;display: flex;">
 
-                                            <button class="star_button ${item.tags.includes('star') ? 'starred' : ''}" data-index="${index}">
+                                            <button class="star_button ${item.tags.includes('star') ? 'starred' : ''}" data-index="${item.ref}">
                                                 <svg xmlns="http://www.w3.org/2000/svg" style="display:block;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>                                            
                                             </button>
 
-                                            <button class="edit_entry" data-index="${index}">
+                                            <button class="edit_entry" data-index="${item.ref}">
                                                 <svg xmlns="http://www.w3.org/2000/svg" style="display:block;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>                                
                                             </button>
 
-                                            <button class="delete_entry" data-index="${index}">
+                                            <button class="delete_entry" data-index="${item.ref}">
                                                 <svg xmlns="http://www.w3.org/2000/svg" style="display:block;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash-2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
                                             </button>
 
@@ -84,12 +84,12 @@ function run(result) {
 
                 // Remove all event lisntners for copy tags inside the cargo
                 cargo_dump.querySelectorAll("copy").forEach(tagElement => {
-                    tagElement.removeEventListener("dblclick", copy_listner);
+                    tagElement.removeEventListener("dblclick", copy_listener);
                 });
 
                 // Add event lisntners for all visible copy tags inside the cargo
                 cargo_dump.querySelectorAll("copy").forEach(tagElement => {
-                    tagElement.addEventListener("dblclick", copy_listner);
+                    tagElement.addEventListener("dblclick", copy_listener);
                 });
 			});
 		});
@@ -97,8 +97,8 @@ function run(result) {
         // Adding event listners for all edit icons
         document.querySelectorAll(".edit_entry").forEach(function (button) {
             button.addEventListener("click", function (event) {
-                let index = parseInt(event.target.dataset.index);
-                edit_cargo(index, cargo);
+                let ref = event.target.dataset.index;
+                edit_cargo(ref);
             });
         });
 
@@ -107,9 +107,9 @@ function run(result) {
 		deleteButtons.forEach(function (button) {
 			button.addEventListener("click", function (event) {
                 if (confirm("Are you sure you want to delete this entry?")) {
-                    let index = parseInt(event.target.dataset.index);
-                    cargo.splice(index, 1);
-                    chrome.storage.local.set({ cargo: cargo });
+
+                    let ref = event.target.dataset.index; 
+                    delete_listener(ref);
                     location.reload();
                 }
 			});
@@ -134,21 +134,38 @@ function run(result) {
 	}
 }
 
+
+function delete_listener(ref) {
+
+    chrome.storage.local.get('cargo', function(result) {
+
+        let cargo = result.cargo || [];
+        cargo = cargo.filter(cargo_item => cargo_item.ref !== ref);
+
+        chrome.storage.local.set({ cargo: cargo });
+    });
+
+}
+
+// This function listens for starring and unstarring
 function star_listener(event) {
 
     chrome.storage.local.get('cargo', function(result) {
 
         const cargo = result.cargo || [];
-        const index = parseInt(event.target.dataset.index);
-        const tagIndex = cargo[index].tags.indexOf('star');
+        const ref = event.target.dataset.index;
+        const star_item_index = cargo.findIndex(cargo_item => cargo_item.ref === ref);
+        const tag_index = cargo[star_item_index].tags.indexOf('star');
 
-        if (tagIndex === -1) {
-            cargo[index].tags.push('star');
+        if (tag_index === -1) {
+            cargo[star_item_index].tags.push('star');
         } else {
-            cargo[index].tags.splice(tagIndex, 1);
+            cargo[star_item_index].tags.splice(tag_index, 1);
         }
+
         // Save cargo after modification
         chrome.storage.local.set({ cargo: cargo });
+
         // Rerun the function to update the cargo display
         run({ cargo: cargo });
     })
@@ -156,10 +173,10 @@ function star_listener(event) {
 }
 
 // Function to copy items with a double click
-function copy_listner() {
+function copy_listener() {
 
-    const textToCopy = this.innerText;
-    navigator.clipboard.writeText(textToCopy)
+    const copying_text = this.innerText;
+    navigator.clipboard.writeText(copying_text)
         .then(() => {
             alert("Text copied to clipboard!!");
         })
@@ -196,55 +213,58 @@ function get_cargo_size(cargo) {
 }
 
 // This function works when the edit button is clicked
-function edit_cargo(index, cargo) {
+function edit_cargo(ref) {
 
-    const cargo_item = cargo[index];
 
-    const modal = document.getElementById("editModal");
-    
-    // Populate the input fields in the modal with cargoItem details
-    const title_input = modal.querySelector("#titleInput");
-    title_input.value = cargo_item.title;
+    chrome.storage.local.get('cargo', function(result) {
 
-    const link_input = modal.querySelector("#linkInput");
-    link_input.value = cargo_item.link;
+        let cargo = result.cargo || [];
+        const editing_cargo_index = cargo.findIndex(cargo_item => cargo_item.ref === ref);
 
-    const more_input = modal.querySelector("#moreInput");
-    more_input.value = cargo_item.more;
 
-    const tags_input = modal.querySelector("#tagsInput");
-    tags_input.value = cargo_item.tags.join(", ")
+        const modal = document.getElementById("editModal");
+        
+        // Populate the input fields in the modal with cargoItem details
+        const title_input = modal.querySelector("#titleInput");
+        title_input.value = cargo[editing_cargo_index].title;
 
-    // Display the modal
-    modal.style.display = "block";
+        const link_input = modal.querySelector("#linkInput");
+        link_input.value = cargo[editing_cargo_index].link;
 
-    // Add event listner to the close button
-    const close_btn = modal.querySelector(".close");
-    close_btn.addEventListener("click", function() {
-        modal.style.display = "none";
-    });
+        const more_input = modal.querySelector("#moreInput");
+        more_input.value = cargo[editing_cargo_index].more;
 
-    // Save changes when the save_changes button is clicked
-    const save_btn = modal.querySelector("#save_changes");
-    save_btn.addEventListener("click", function() {
-        // Update cargoItem details with values from input fields
-        cargo_item.title = title_input.value;
-        cargo_item.link = link_input.value;
-        cargo_item.more = more_input.value;
-        cargo_item.tags = tags_input.value.split(",").map(tag => tag.trim()).filter(tag => tag !== "");
+        const tags_input = modal.querySelector("#tagsInput");
+        tags_input.value = cargo[editing_cargo_index].tags.join(", ")
 
-        // Update cargo array with the edited cargoItem
-        cargo[index] = cargo_item;
+        // Display the modal
+        modal.style.display = "block";
 
-        // Save updated cargo array to storage
-        chrome.storage.local.set({ cargo: cargo });
+        // Add event listner to the close button
+        const close_btn = modal.querySelector(".close");
+        close_btn.addEventListener("click", function() {
+            modal.style.display = "none";
+        });
 
-        // Close the modal
-        modal.style.display = "none";
+        // Save changes when the save_changes button is clicked
+        const save_btn = modal.querySelector("#save_changes");
+        save_btn.addEventListener("click", function() {
+            // Update cargoItem details with values from input fields
+            cargo[editing_cargo_index].title = title_input.value;
+            cargo[editing_cargo_index].link = link_input.value;
+            cargo[editing_cargo_index].more = more_input.value;
+            cargo[editing_cargo_index].tags = tags_input.value.split(",").map(tag => tag.trim()).filter(tag => tag !== "");
 
-        // Reload the page or update cargo display as needed
-        // For example:
-        run({ cargo: cargo }); // Assuming run function exists
+            // Save updated cargo array to storage
+            chrome.storage.local.set({ cargo: cargo });
+
+            // Close the modal
+            modal.style.display = "none";
+
+            // Reload the page
+            run({ cargo: cargo });
+        });
+
     });
 }
 
