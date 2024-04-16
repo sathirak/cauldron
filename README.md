@@ -5,8 +5,10 @@
 </div>
 
 <div align="left">
-  
-A Chrome extension that can be used to store important data like Images, Links, Selected Text and even Code
+
+A Chrome extension to streamline your workflow, the all-in-one tool for effortless content gathering and organisation.
+
+Store important data like Images, Links, Selected Text and even Code
 
 ## Installation
 
