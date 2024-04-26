@@ -1,11 +1,5 @@
 html {
-	--s: 90px;
-	--c1: #ffffff;
-	--c2: #eff0f2;
-	background: conic-gradient(at 25% 75%, #0000 25%, var(--c1) 0) calc(var(--s) / -8) calc(var(--s) / 8) / var(--s) var(--s),
-		radial-gradient(50% 50%, var(--c1) 24%, var(--c2) 26% 74%, #0000 76%) 0 0 / var(--s) var(--s),
-		conic-gradient(var(--c1) 75%, var(--c2) 0) calc(var(--s) / 2) calc(var(--s) / 2) / calc(2 * var(--s)) calc(2 * var(--s));
-	background-attachment: fixed;
+	background: linear-gradient(185deg, hsla(0, 0%, 100%, 0), #fff 300px), fixed 0 0 / 10px 10px radial-gradient(#d1d1d1 1px, transparent 0);
 }
 
 :root {
@@ -13,7 +7,7 @@ html {
 	--accent-color: #364d55;
 	--tertiary-color: #0e2220;
 	--border-color: #b0d0cd;
-	--warn-color:#dc265d;
+	--warn-color: #dc265d;
 }
 
 svg {
@@ -21,20 +15,20 @@ svg {
 }
 
 tag {
-    background-color: var(--accent-color);
-    color: var(--border-color);
-    padding: 2px;
-    padding-inline: 6px;
-    border-radius: 3px;
-    margin-inline: 3px;
+	background-color: var(--accent-color);
+	color: var(--border-color);
+	padding: 2px;
+	padding-inline: 6px;
+	border-radius: 3px;
+	margin-inline: 3px;
 }
 
 copy {
-    user-select: none;
-    padding: 4px;
+	user-select: none;
+	padding: 4px;
 	padding-inline: 7px;
-    display: block;
-    border-radius: 4px;
+	display: block;
+	border-radius: 4px;
 }
 
 .head {
@@ -152,12 +146,12 @@ body {
 }
 
 .more-info.show {
-    display: flex;
+	display: flex;
 	flex-direction: column;
-    margin-top: 15px;
-    line-break: anywhere;
-    justify-content: space-between;
-    width: 504px;
+	margin-top: 15px;
+	line-break: anywhere;
+	justify-content: space-between;
+	width: 504px;
 }
 
 .more-info p {
@@ -300,30 +294,36 @@ body {
 }
 
 .github-repo {
-    width: 40px;
-    height: 40px;
-    background-color: inherit;
-    color: inherit;
+	width: 40px;
+	height: 40px;
+	background-color: inherit;
+	color: inherit;
 	display: block;
 }
 
 .github-link {
-    position: absolute;
-    top: 2%;
-    right: 2%;
-    background-color: var(--tertiary-color);
-    color: var(--c1);
-    border-radius: 50%;
-    padding: 11px;
+	position: absolute;
+	top: 2%;
+	right: 2%;
+	background-color: var(--tertiary-color);
+	color: var(--border-color);
+	border-radius: 50%;
+	padding: 11px;
 	animation: none;
 }
 
 @keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-    100% { transform: scale(1); }
+	0% {
+		transform: scale(1);
+	}
+	50% {
+		transform: scale(1.1);
+	}
+	100% {
+		transform: scale(1);
+	}
 }
 
-.github-link:hover .github-repo{
+.github-link:hover .github-repo {
 	animation: pulse 1s ease-in-out;
 }
