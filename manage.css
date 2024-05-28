@@ -15,12 +15,13 @@ svg {
 }
 
 tag {
-	background-color: var(--accent-color);
-	color: var(--border-color);
-	padding: 2px;
-	padding-inline: 6px;
-	border-radius: 3px;
-	margin-inline: 3px;
+    background-color: var(--accent-color);
+    color: var(--border-color);
+    padding: 2px;
+    padding-inline: 6px;
+    border-radius: 3px;
+    margin-inline: 3px;
+    width: max-content;
 }
 
 copy {
@@ -36,14 +37,12 @@ copy {
 	flex-direction: row;
 	align-items: center;
 	margin: 5px;
-	gap: 10px;
+	gap: 2px;
+	color: var(--primary-color);
 }
 
 .heading {
 	user-select: none;
-	color: var(--primary-color);
-	margin-inline-start: 10px;
-	margin-top: 5px;
 	font-weight: 600;
 }
 
@@ -58,7 +57,7 @@ button {
 	color: white;
 	font-size: medium;
 	font-weight: 600;
-	padding: 10px;
+	padding: 5px;
 	border-radius: 3px;
 	cursor: pointer;
 	display: block;
@@ -81,6 +80,7 @@ body {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	overflow-y: scroll;
 }
 
 .delete_entry {
@@ -89,7 +89,7 @@ body {
 
 .cargo-item {
 	all: unset;
-	border-bottom: 2px solid var(--border-color);
+	border-bottom: 1px solid var(--border-color);
 	padding: 5px;
 	width: 90%;
 	display: flex;
@@ -124,12 +124,14 @@ body {
 }
 
 #cargo_dump {
-	border: 2px solid var(--border-color);
 	background-color: #ffffff78;
 	margin: 5px;
 	border-radius: 5px;
 	padding: 5px;
 	width: 600px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 
 #delete_all {
@@ -155,7 +157,11 @@ body {
 }
 
 .more-info p {
-	width: 400px;
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin: 0;
 }
 
 .more-info a {
@@ -187,7 +193,7 @@ body {
 	align-items: center;
 	justify-content: space-evenly;
 	gap: 15px;
-	margin-block: 15px;
+	margin-block: 4px;
 }
 
 .bar input {
@@ -203,7 +209,7 @@ body {
 	all: unset;
 	background-color: var(--accent-color);
 	color: white;
-	padding: 10px;
+	padding: 4px;
 	padding-inline: 15px;
 	border-radius: 4px;
 	cursor: pointer;
@@ -214,6 +220,11 @@ body {
 
 .filter-button:hover {
 	background-color: var(--border-color);
+	color: var(--primary-color);
+}
+
+.more_entry{
+	background-color: unset;
 	color: var(--primary-color);
 }
 
@@ -291,39 +302,4 @@ body {
 
 .starred {
 	background-color: rgb(246 219 96);
-}
-
-.github-repo {
-	width: 40px;
-	height: 40px;
-	background-color: inherit;
-	color: inherit;
-	display: block;
-}
-
-.github-link {
-	position: absolute;
-	top: 2%;
-	right: 2%;
-	background-color: var(--tertiary-color);
-	color: var(--border-color);
-	border-radius: 50%;
-	padding: 11px;
-	animation: none;
-}
-
-@keyframes pulse {
-	0% {
-		transform: scale(1);
-	}
-	50% {
-		transform: scale(1.1);
-	}
-	100% {
-		transform: scale(1);
-	}
-}
-
-.github-link:hover .github-repo {
-	animation: pulse 1s ease-in-out;
 }
